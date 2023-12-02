@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npx playwright test tests",
+    "debug": "npx playwright test tests --debug",
     "codegen": "npx playwright codegen"
   },
   "repository": {
