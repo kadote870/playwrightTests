@@ -1,0 +1,28 @@
+{
+  "name": "playwrighttests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test tests",
+    "codegen": "npx playwright codegen"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kadote870/playwrightTests.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kadote870/playwrightTests/issues"
+  },
+  "homepage": "https://github.com/kadote870/playwrightTests#readme",
+  "dependencies": {
+    "playwright": "^1.40.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.1",
+    "@types/node": "^20.10.2"
+  }
+}
