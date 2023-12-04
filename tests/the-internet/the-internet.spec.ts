@@ -14,7 +14,25 @@ const go_to_main_page_and_go_to_specific_section = async (page: Page, linkName: 
     await page.getByRole('link', {name: linkName}).click();
 }
 
-// A/B Testing
+test('A/B Testing', async ({page}) => {
+    await go_to_main_page_and_go_to_specific_section(page, 'A/B Testing');
+
+    await page.waitForSelector('h3');
+    const headingText = await page.$eval('h3', (h3) => h3.textContent);
+    console.log('A/B Testing: headingText', headingText);
+
+    const h3Names = ['A/B Test Variation 1', 'A/B Test Control'];
+
+    function return_index() {
+        if (h3Names.includes(headingText)) {
+            return h3Names.indexOf(headingText);
+        }
+    }
+
+    const index = return_index()
+
+    await expect(page.getByRole('heading')).toContainText(h3Names[index]);
+});
 
 test('Add/Remove Elements', async ({page}) => {
     await go_to_main_page_and_go_to_specific_section(page, 'Add/Remove Elements');
@@ -36,9 +54,9 @@ test('Challenging DOM', async ({page}) => {
     }
 
     const columnNames = [null, 'Iuvaret0', 'Apeirian0', 'Adipisci0', 'Definiebas0', 'Consequuntur0', 'Phaedrum0'];
-    const check_column_names = async (page, array) => {
+    const check_column_names = async (page: Page, array: string[]) => {
         for (let i = 1; i < array.length; i++) {
-            const cell = await page.locator(`table tbody tr:nth-of-type(1) td:nth-of-type(${i})`);
+            const cell = page.locator(`table tbody tr:nth-of-type(1) td:nth-of-type(${i})`);
             await expect(cell).toContainText(array[i]);
         }
     }
@@ -145,12 +163,12 @@ test('Challenging DOM', async ({page}) => {
 
     for (let i = 0; i < fakeApiResponse.length; i++) {
         const rowNumber = i + 1;
-        await expect(await page.locator(`table tbody tr:nth-of-type(${rowNumber}) td:nth-of-type(1)`)).toContainText(fakeApiResponse[i].lorem);
-        await expect(await page.locator(`table tbody tr:nth-of-type(${rowNumber}) td:nth-of-type(2)`)).toContainText(fakeApiResponse[i].ipsum);
-        await expect(await page.locator(`table tbody tr:nth-of-type(${rowNumber}) td:nth-of-type(3)`)).toContainText(fakeApiResponse[i].dolor);
-        await expect(await page.locator(`table tbody tr:nth-of-type(${rowNumber}) td:nth-of-type(4)`)).toContainText(fakeApiResponse[i].sit);
-        await expect(await page.locator(`table tbody tr:nth-of-type(${rowNumber}) td:nth-of-type(5)`)).toContainText(fakeApiResponse[i].amet);
-        await expect(await page.locator(`table tbody tr:nth-of-type(${rowNumber}) td:nth-of-type(6)`)).toContainText(fakeApiResponse[i].diceret);
+        await expect(page.locator(`table tbody tr:nth-of-type(${rowNumber}) td:nth-of-type(1)`)).toContainText(fakeApiResponse[i].lorem);
+        await expect(page.locator(`table tbody tr:nth-of-type(${rowNumber}) td:nth-of-type(2)`)).toContainText(fakeApiResponse[i].ipsum);
+        await expect(page.locator(`table tbody tr:nth-of-type(${rowNumber}) td:nth-of-type(3)`)).toContainText(fakeApiResponse[i].dolor);
+        await expect(page.locator(`table tbody tr:nth-of-type(${rowNumber}) td:nth-of-type(4)`)).toContainText(fakeApiResponse[i].sit);
+        await expect(page.locator(`table tbody tr:nth-of-type(${rowNumber}) td:nth-of-type(5)`)).toContainText(fakeApiResponse[i].amet);
+        await expect(page.locator(`table tbody tr:nth-of-type(${rowNumber}) td:nth-of-type(6)`)).toContainText(fakeApiResponse[i].diceret);
     }
 });
 
